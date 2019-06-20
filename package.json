@@ -1,21 +1,22 @@
 {
-  "name": "grocery-list",
+  "name": "familist",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "test": "set NODE_ENV=test && jasmine"
+    "test": "set NODE_ENV=test && jasmine",
+    "start": "node src/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AriAbr/grocery-list.git"
+    "url": "git+https://github.com/AriAbr/familist.git"
   },
   "author": "Ari Abramowitz",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AriAbr/grocery-list/issues"
+    "url": "https://github.com/AriAbr/familist/issues"
   },
-  "homepage": "https://github.com/AriAbr/grocery-list#readme",
+  "homepage": "https://github.com/AriAbr/familist#readme",
   "devDependencies": {
     "faker": "^4.1.0",
     "jasmine": "^3.4.0",
