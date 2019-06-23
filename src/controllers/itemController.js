@@ -41,6 +41,31 @@ module.exports = {
       req.flash("notice", "You are not authorized to do that.");
       res.redirect("/items");
     }
+  },
+
+  destroy(req, res, next){
+    // console.log("========= in itemController.destroy() ==========")
+    // console.log(parseInt(req.params.itemId))
+    itemId = parseInt(req.params.itemId);
+    itemQueries.getItem(itemId, (err, item) => {
+      // console.log(item);
+      const authorized = new Authorizer(req.user, item).destroy();
+      // console.log(authorized)
+      if (authorized) {
+        itemQueries.deleteItem(req, (err, item) => {
+
+          if(err) {
+            res.redirect(err, "/items");
+          } else {
+            res.redirect(303, "/items");
+          }
+        });
+      } else {
+        req.flash("notice", "You are not authorized to do that.");
+        res.redirect("/items");
+      }
+    })
+
   }
 
 }
