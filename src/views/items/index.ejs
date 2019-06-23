@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+
+      <!-- Navigation -->
+      <% include ../static/partials/navbar.ejs %>
+
+
+      <!-- Page Content -->
+      <main class="container">
+
+        <% include ../static/partials/messages.ejs %>
+
+        <h1>Groceries</h1>
+        <hr>
+        <% include ../items/new.ejs %>
+
+        <ul class="list-group">
+          <% items.forEach((item) => { %>
+            <li class="list-group-item">
+              <div class="custom-control custom-checkbox">
+                <!-- <% if(item.completed){ %> -->
+                  <!-- <input class="custom-control-input checkbox" type="checkbox" id=<%= item.id %> name=<%= item.name %> value=<%= item.completed %> checked> -->
+                <!-- <% } else if (!item.completed){ %> -->
+                  <input class="custom-control-input checkbox" type="checkbox" id=<%= item.id %> name=<%= item.name %> value=<%= item.completed %> >
+                <!-- <% } %> -->
+                <label class="custom-control-label" for=<%= item.id %>>
+                  <%= item.name %>
+                </label>
+              </div>
+
+            </li>
+          <% }) %>
+        </ul>
+
+      </main>
+      <!-- /.container -->
+
+      <% include ../static/partials/baseScripts.ejs %>
+    </body>
+</html>
