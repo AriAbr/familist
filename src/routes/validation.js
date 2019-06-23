@@ -32,4 +32,19 @@ module.exports = {
       return next();
     }
   },
+
+  validateItems(req, res, next){
+    if(req.method === "POST"){
+      req.checkBody("name", "must not be empty").not().isEmpty();
+    }
+
+    const errors = req.validationErrors();
+
+    if(errors){
+      req.flash("error", errors);
+      return res.redirect(req.headers.referer);
+    } else {
+      return next();
+    }
+  },
 }

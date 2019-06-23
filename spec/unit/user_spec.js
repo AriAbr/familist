@@ -55,7 +55,7 @@ describe("User", () => {
 
     });
 
-    it("should not crate a user with an eamil already taken", (done) => {
+    it("should not create a user with an eamil already taken", (done) => {
 
       User.create({
         name: "Example User",
