@@ -49,7 +49,6 @@ describe("routes : items", () => {
   describe("GET /items", () => {
 
     it("should render a status code of 200 and list all items", (done) => {
-      console.log("about to request /items")
       request.get(base, (err, res, body) => {
         expect(res.statusCode).toBe(200);
         expect(body).toContain("celery");
@@ -98,6 +97,27 @@ describe("routes : items", () => {
         .catch((err) => {
           console.log(err);
           done();
+        });
+      });
+    });
+
+  });
+
+  describe("POST items/:id/destroy", () => {
+
+    it("should delete the item with the associated ID", (done) => {
+      Item.all()
+      .then((items) => {
+        const itemCountBeforeDelete = items.length;
+        expect(itemCountBeforeDelete).toBe(1);
+        // console.log(this.item.id)
+        request.post(`${base}${this.item.id}/destroy`, (err, res, body) => {
+          Item.all()
+          .then((items) => {
+            expect(err).toBeNull();
+            expect(items.length).toBe(itemCountBeforeDelete - 1);
+            done();
+          });
         });
       });
     });
