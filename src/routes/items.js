@@ -11,4 +11,6 @@ router.post("/items/create", validation.validateItems, itemController.create);
 
 router.post("/items/:itemId/destroy", itemController.destroy);
 
+router.post("/items/:itemId/update", validation.validateItems, itemController.update);
+
 module.exports = router;
