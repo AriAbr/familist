@@ -66,6 +66,25 @@ module.exports = {
       }
     })
 
+  },
+
+  update(req, res, next){
+    itemQueries.getItem(req.params.itemId, (err, item) => {
+      const authorized = new Authorizer(req.user, item).update();
+
+      if (authorized) {
+        itemQueries.updateItem(req, req.body, (err, item) => {
+          if (err || item == null) {
+            res.redirect(401, `/items`);
+          } else {
+            res.redirect(`/items`);
+          }
+        });
+      } else {
+        req.flash("notice", "You are not authorized to do that.");
+        res.redirect(`/items`);
+      }
+    })
   }
 
 }

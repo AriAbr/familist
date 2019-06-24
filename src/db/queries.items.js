@@ -47,4 +47,22 @@ module.exports = {
     });
   },
 
+  updateItem(req, updatedItem, callback){
+    return Item.findById(req.params.itemId)
+    .then((item) => {
+      if(!item){
+        return callback("Item not found");
+      }
+
+      item.update(updatedItem, {
+        fields: Object.keys(updatedItem)
+      })
+      .then(() => {
+        callback(null, item);
+      })
+      .catch((err) => {
+        callback(err);
+      });
+    });
+  }
 }

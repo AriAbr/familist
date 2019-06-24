@@ -124,4 +124,29 @@ describe("routes : items", () => {
 
   });
 
+  describe("POST /items/:id/update", () => {
+
+    it("should update the item with the given name", (done) => {
+      const options = {
+        url: `${base}${this.item.id}/update`,
+        form: {
+          name: "carrots"
+        }
+      };
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+        Item.findOne({where: {id: this.item.id}})
+        .then((item) => {
+          expect(item.name).toBe("carrots");
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        });
+      });
+    });
+
+  });
+
 });
