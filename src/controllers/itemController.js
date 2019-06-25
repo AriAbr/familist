@@ -28,6 +28,7 @@ module.exports = {
 
       let newItem = {
         name: req.body.name,
+        completed: false
       };
       itemQueries.addItem(newItem, (err, item) => {
         if (err) {
@@ -44,13 +45,9 @@ module.exports = {
   },
 
   destroy(req, res, next){
-    // console.log("========= in itemController.destroy() ==========")
-    // console.log(parseInt(req.params.itemId))
     itemId = parseInt(req.params.itemId);
     itemQueries.getItem(itemId, (err, item) => {
-      // console.log(item);
       const authorized = new Authorizer(req.user, item).destroy();
-      // console.log(authorized)
       if (authorized) {
         itemQueries.deleteItem(req, (err, item) => {
 

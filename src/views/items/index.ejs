@@ -30,16 +30,32 @@
         <% items.forEach((item) => { %>
           <li class="list-group-item" id="item-<%= item.id %>">
             <div id="item-<%= item.id %>-listing" class="item-listing">
-              <div class="custom-control custom-checkbox" style="float:left">
-                  <input class="custom-control-input checkbox" type="checkbox" id=<%= item.id %> name="<%= item.name %>" value=<%= item.completed %> >
-                <label class="custom-control-label" for=<%= item.id %>>
-                  <%= item.name %>
-                </label>
+              <div  style="float:left">
+
+                <form style="display: inline;" action="/items/<%= item.id %>/update" method="post" class="form" style="margin-bottom: 0px">
+                  <input type="text" name="name" aria-describedby="bodyHelp" placeholder="<%= item.name %>" value="<%= item.name %>" hidden/>
+                  <div class="custom-control custom-checkbox" style="display: inline" >
+                    <% if(item.completed){ %>
+                      <input type="checkbox" class="custom-control-input" id="item-<%= item.id %>-checkbox" onclick="this.form.submit();" checked>
+                      <input type="text" name="completed" aria-describedby="bodyHelp" value="false" hidden/>
+                      <label class="custom-control-label" for="item-<%= item.id %>-checkbox"></label>
+                    <% } else { %>
+                      <input type="checkbox" class="custom-control-input" id="item-<%= item.id %>-checkbox" name="completed" value=<%= !item.completed %> onclick="this.form.submit();" >
+                      <label class="custom-control-label" for="item-<%= item.id %>-checkbox"></label>
+                    <% } %>
+                  </div>
+                  <p style="display: inline;">
+                    <%= item.name %>
+                  </p>
+                </form>
+
               </div>
+
               <div class="text-right buttons" style="white-space: nowrap">
+                
                 <div style="display: inline-block">
                   <form action="" method="post">
-                    <button type="button" onclick="toggleEditForm('<%= item.id %>', 'on')" %> name="item-edit" value="edit" class="btn btn-outline-info btn-xs" style="margin-left: 20px">
+                    <button type="button" onclick="toggleEditForm('<%= item.id %>', 'on')" name="item-edit" value="edit" class="btn btn-outline-info btn-xs" style="margin-left: 20px">
                       <i class="fa fa-edit"></i>
                     </button>
                   </form>
@@ -58,7 +74,7 @@
             </div>
             <div id="item-<%= item.id %>-edit" class="item-edit" style="display: none ">
 
-              <div style="float:left; width: 80%">
+              <div style="float:left; width: 60%">
                 <form action="/items/<%= item.id %>/update" method="post" class="form" style="margin-bottom: 0px">
                   <div class="form-group input-large" style="float: left; margin:0 4px 0 0; width: 100%">
                     <input style="margin:0;" type="text" class="form-control form-control-sm item-edit-input" name="name" aria-describedby="bodyHelp" placeholder="<%= item.name %>" value="<%= item.name %>" />
@@ -82,13 +98,6 @@
                   </form>
                 </div>
               </div>
-
-
-
-
-
-
-
             </div>
           </li>
         <% }) %>
