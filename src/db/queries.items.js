@@ -53,7 +53,6 @@ module.exports = {
       if(!item){
         return callback("Item not found");
       }
-
       item.update(updatedItem, {
         fields: Object.keys(updatedItem)
       })

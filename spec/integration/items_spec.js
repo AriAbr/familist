@@ -147,6 +147,28 @@ describe("routes : items", () => {
       });
     });
 
+    it("should update the item with the given completed value", (done) => {
+      const options = {
+        url: `${base}${this.item.id}/update`,
+        form: {
+          name: this.item.name,
+          completed: true
+        }
+      };
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+        Item.findOne({where: {id: this.item.id}})
+        .then((item) => {
+          expect(item.completed).toBe(true);
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        });
+      });
+    });
+
   });
 
 });
