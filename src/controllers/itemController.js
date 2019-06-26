@@ -36,7 +36,6 @@ module.exports = {
           res.redirect (500, "/items");
         } else {
           global.io.emit('new item', item);
-          // res.redirect (303, "/items");
           res.status(204).send();
         }
       });
@@ -60,11 +59,6 @@ module.exports = {
             res.redirect(err, "/items");
 
           } else {
-            // console.log("item destroyed");
-            // console.log(!!item);
-            // console.log(res);
-            // console.log(item)
-            // res.redirect(303, "/items");
             global.io.emit('delete item', item);
             res.status(204).send();
           }
@@ -79,6 +73,7 @@ module.exports = {
 
   update(req, res, next){
     itemQueries.getItem(req.params.itemId, (err, item) => {
+      console.log("itemController update() called");
       const authorized = new Authorizer(req.user, item).update();
 
       if (authorized) {
@@ -86,7 +81,9 @@ module.exports = {
           if (err || item == null) {
             res.redirect(401, `/items`);
           } else {
-            res.redirect(`/items`);
+            global.io.emit('update item', item);
+            res.status(204).send();
+            // res.redirect(`/items`);
           }
         });
       } else {
