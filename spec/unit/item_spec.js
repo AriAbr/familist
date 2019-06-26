@@ -39,7 +39,6 @@ describe("Item", () => {
         name: null,
       })
       .then((item) => {
-        //skipped by validation error
         expect(item).toBeNull()
         done();
       })

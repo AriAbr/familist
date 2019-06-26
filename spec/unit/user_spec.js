@@ -43,7 +43,6 @@ describe("User", () => {
         password: "1234567890"
       })
       .then((user) => {
-        //skipped by validation error
         expect(user).toBeNull()
         done();
       })
@@ -69,7 +68,6 @@ describe("User", () => {
           password: "nananananananananananananananana BATMAN!"
         })
         .then((user) => {
-          //skipped by validation error
           expect(user).toBeNull()
           done();
         })

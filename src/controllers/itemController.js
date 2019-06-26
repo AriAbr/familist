@@ -73,8 +73,6 @@ module.exports = {
       const authorized = new Authorizer(req.user, item).update();
       if (authorized) {
         itemQueries.updateItem(req, req.body, (err, item) => {
-          console.log(req.body);
-
           if (err || item == null) {
             res.redirect(401, `/items`);
           } else {
