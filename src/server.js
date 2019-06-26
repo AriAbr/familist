@@ -8,13 +8,18 @@ const server = http.createServer(app);
 
 const io = require('socket.io')(server);
 io.on('connection', function(socket){
-  socket.on('new item', function(itemName){
+  socket.on('new item', function(item){
     console.log("new item recieved")
     // console.log('message: ' + msg);
-    io.emit('new item', itemName);
-
+    io.emit('new item', item);
+  });
+  socket.on('delete item', function(item){
+    console.log("in server delete item function");
+    io.emit('delete item', item);
   });
 });
+global.io = io;
+
 
 server.listen(port);
 

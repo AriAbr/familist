@@ -6,47 +6,35 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
-    //find current highestId
-    var highestId = null;
-    var items = (<%-JSON.stringify(items)%>);
-    for (var i = 0; i < items.length; i++) {
-      if(items[i].id > highestId){
-        highestId = items[i].id;
-      }
-    }
 
     $(function () {
       var socket = io();
       $('#new-item').submit(function(e){
         e.preventDefault(); // prevents page reloading
-        socket.emit('new item', $('#new-item-name').val());
-        $.post("/items/create", {name: $('#new-item-name').val()})
+        $.post(`/items/create`, {name: $('#new-item-name').val()})
         $('#new-item-name').val('');
         return false;
       });
-      socket.on('new item', function(itemName){
-        highestId++
-        var newItemId = highestId;
-
+      socket.on('new item', function(item){
         $('#items-list').append(`
-          <li class="list-group-item" id="item-${highestId}">
-            <div id="item-${highestId}-listing" class="item-listing">
+          <li class="list-group-item" id="item-${item.id}">
+            <div id="item-${item.id}-listing" class="item-listing">
               <div  style="float:left">
 
-                <form style="display: inline;" action="/items/${highestId}/update" method="post" class="form" style="margin-bottom: 0px">
-                  <input type="text" name="name" aria-describedby="bodyHelp" placeholder=${itemName} value=${itemName} hidden/>
+                <form style="display: inline;" action="/items/${item.id}/update" method="post" class="form" style="margin-bottom: 0px">
+                  <input type="text" name="name" aria-describedby="bodyHelp" placeholder=${item.name} value=${item.name} hidden/>
                   <div class="custom-control custom-checkbox" style="display: inline" >
                     <% if(!"item.completed"){ %>
-                      <input type="checkbox" class="custom-control-input" id="item-${highestId}-checkbox" onclick="this.form.submit();" checked>
+                      <input type="checkbox" class="custom-control-input" id="item-${item.id}-checkbox" onclick="this.form.submit();" checked>
                       <input type="text" name="completed" aria-describedby="bodyHelp" value="false" hidden/>
-                      <label class="custom-control-label" for="item-${highestId}-checkbox"></label>
+                      <label class="custom-control-label" for="item-${item.id}-checkbox"></label>
                     <% } else { %>
-                      <input type="checkbox" class="custom-control-input" id="item-${highestId}-checkbox" name="completed" value="true" onclick="this.form.submit();" >
-                      <label class="custom-control-label" for="item-${highestId}-checkbox"></label>
+                      <input type="checkbox" class="custom-control-input" id="item-${item.id}-checkbox" name="completed" value="true" onclick="this.form.submit();" >
+                      <label class="custom-control-label" for="item-${item.id}-checkbox"></label>
                     <% } %>
                   </div>
                   <p style="display: inline;">
-                    ${itemName}
+                    ${item.name}
                   </p>
                 </form>
 
@@ -56,13 +44,13 @@
 
                 <div style="display: inline-block">
                   <form action="" method="post">
-                    <button type="button" onclick="toggleEditForm('${highestId}', 'on')" name="item-edit" value="edit" class="btn btn-outline-info btn-xs" style="margin-left: 20px">
+                    <button type="button" onclick="toggleEditForm('${item.id}', 'on')" name="item-edit" value="edit" class="btn btn-outline-info btn-xs" style="margin-left: 20px">
                       <i class="fa fa-edit"></i>
                     </button>
                   </form>
                 </div>
                 <div style="display: inline-block">
-                  <form action="/items/${highestId}/destroy" method="post">
+                  <form action="/items/${item.id}/destroy" method="post">
                     <button type="submit" name="item-destroy" value="destroy" class="btn btn-outline-danger btn-xs" style="margin-left: 20px">
                       <i class="fa fa-times"></i>
                     </button>
@@ -70,11 +58,11 @@
                 </div>
               </div>
             </div>
-            <div id="item-${highestId}-edit" class="item-edit" style="display: none ">
+            <div id="item-${item.id}-edit" class="item-edit" style="display: none ">
               <div style="float:left; width: 60%">
-                <form action="/items/${highestId}/update" method="post" class="form" style="margin-bottom: 0px">
+                <form action="/items/${item.id}/update" method="post" class="form" style="margin-bottom: 0px">
                   <div class="form-group input-large" style="float: left; margin:0 4px 0 0; width: 100%">
-                    <input style="margin:0; padding: 1px 8px" type="text" class="form-control form-control-sm item-edit-input" name="name" aria-describedby="bodyHelp" placeholder="${itemName}" value="${itemName}" />
+                    <input style="margin:0; padding: 1px 8px" type="text" class="form-control form-control-sm item-edit-input" name="name" aria-describedby="bodyHelp" placeholder="${item.name}" value="${item.name}" />
                   </div>
               </div>
               <div class="text-right buttons" style="white-space: nowrap">
@@ -83,12 +71,12 @@
                   </form>
                 </div>
                 <div style="display: inline-block">
-                  <button type="button" onclick="toggleEditForm('${highestId}', 'off')" %> name="item-edit" value="edit" class="btn btn-outline-info btn-xs" style="margin-left: 20px">
+                  <button type="button" onclick="toggleEditForm('${item.id}', 'off')" %> name="item-edit" value="edit" class="btn btn-outline-info btn-xs" style="margin-left: 20px">
                     <i class="fa fa-undo"></i>
                   </button>
                 </div>
                 <div style="display: inline-block">
-                  <form action="/items/${highestId}/destroy" method="post">
+                  <form action="/items/${item.id}/destroy" method="post">
                     <button type="submit" name="item-destroy" value="destroy" class="btn btn-outline-danger btn-xs" style="margin-left: 20px">
                       <i class="fa fa-times"></i>
                     </button>
@@ -100,6 +88,26 @@
         `);
       });
     });
+
+  </script>
+  <script>
+  $(function () {
+    var socket = io();
+    var allDeleteFormIdInputs = document.getElementsByClassName("delete-id-input");
+    for (var i = 0; i < allDeleteFormIdInputs.length; i++) {
+      let currItemId = allDeleteFormIdInputs[i].value;
+      $(`#delete-item-${currItemId}-form`).submit(function(e){
+        e.preventDefault(); // prevents page reloading
+        $.post(`/items/${currItemId}/destroy`, {id: currItemId})
+        return false;
+      });
+    }
+    socket.on('delete item', function(item){
+      var deletedItemListing = document.getElementById(`item-${item.id}`);
+      deletedItemListing.style.display = "none";
+      // $('#items-list').append(`<li>blah ${item.name}</li>`)
+    });
+  })
   </script>
   <body>
 
@@ -160,7 +168,7 @@
                   </form>
                 </div>
                 <div style="display: inline-block">
-                  <form action="/items/<%= item.id %>/destroy" method="post">
+                  <form id="delete-item" action="/items/<%= item.id %>/destroy" method="post">
                     <button type="submit" name="item-destroy" value="destroy" class="btn btn-outline-danger btn-xs" style="margin-left: 20px">
                       <i class="fa fa-times"></i>
                     </button>
@@ -190,7 +198,8 @@
                   </button>
                 </div>
                 <div style="display: inline-block">
-                  <form action="/items/<%= item.id %>/destroy" method="post">
+                  <form class="delete-item-<%= item.id %>-form" action="/items/<%= item.id %>/destroy" method="post">
+                    <input class="delete-id-input" type="text" name="itemId" aria-describedby="bodyHelp" placeholder="<%= item.id %>" value="<%= item.id %>" hidden/>
                     <button type="submit" name="item-destroy" value="destroy" class="btn btn-outline-danger btn-xs" style="margin-left: 20px">
                       <i class="fa fa-times"></i>
                     </button>

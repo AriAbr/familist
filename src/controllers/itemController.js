@@ -35,7 +35,9 @@ module.exports = {
         if (err) {
           res.redirect (500, "/items");
         } else {
+          global.io.emit('new item', item);
           // res.redirect (303, "/items");
+          res.status(204).send();
         }
       });
 
@@ -46,16 +48,25 @@ module.exports = {
   },
 
   destroy(req, res, next){
+    console.log("itemController destroy() called");
     itemId = parseInt(req.params.itemId);
     itemQueries.getItem(itemId, (err, item) => {
       const authorized = new Authorizer(req.user, item).destroy();
       if (authorized) {
         itemQueries.deleteItem(req, (err, item) => {
+          console.log("destroying item");
 
           if(err) {
             res.redirect(err, "/items");
+
           } else {
-            res.redirect(303, "/items");
+            // console.log("item destroyed");
+            // console.log(!!item);
+            // console.log(res);
+            // console.log(item)
+            // res.redirect(303, "/items");
+            global.io.emit('delete item', item);
+            res.status(204).send();
           }
         });
       } else {
