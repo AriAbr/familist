@@ -1,15 +1,9 @@
 
 <div id="item-add" style="display: block ">
   <form id="new-item" action="/items/create" method="post" class="form-inline" style="margin-bottom: 8px">
-    <div style="float:left; width: 60%">
-      <div class="form-group" style="float: left; width: 100%">
-        <input id="new-item-name" style="width: 100%" type="text" class="form-control" name="name" aria-describedby="bodyHelp" placeholder="enter item" />
-      </div>
+    <div class="form-group" style="float: left; width: calc(100% - 48px); display: flex; margin: auto">
+      <input id="new-item-name" style="width: 100%" type="text" class="form-control" name="name" aria-describedby="bodyHelp" placeholder="enter item" />
     </div>
-    <div class="text-left buttons" style="white-space: nowrap">
-      <div style="display: inline-block">
-        <button type="submit" class="btn btn-primary" style="margin:0 0 0 8px;"><i class="fa fa-plus"></i></button>
-      </div>
-    </div>
+    <button type="submit" class="btn btn-primary" style="margin:0 0 0 8px; display: inline-block"><i class="fa fa-plus"></i></button>
   </form>
 </div>

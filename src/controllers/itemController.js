@@ -22,7 +22,6 @@ module.exports = {
   },
 
   create(req, res, next){
-    console.log("itemController create() called");
     const authorized = new Authorizer(req.user).create();
 
     if(authorized){
@@ -47,13 +46,11 @@ module.exports = {
   },
 
   destroy(req, res, next){
-    console.log("itemController destroy() called");
     itemId = parseInt(req.params.itemId);
     itemQueries.getItem(itemId, (err, item) => {
       const authorized = new Authorizer(req.user, item).destroy();
       if (authorized) {
         itemQueries.deleteItem(req, (err, item) => {
-          console.log("destroying item");
 
           if(err) {
             res.redirect(err, "/items");
@@ -73,11 +70,11 @@ module.exports = {
 
   update(req, res, next){
     itemQueries.getItem(req.params.itemId, (err, item) => {
-      console.log("itemController update() called");
       const authorized = new Authorizer(req.user, item).update();
-
       if (authorized) {
         itemQueries.updateItem(req, req.body, (err, item) => {
+          console.log(req.body);
+
           if (err || item == null) {
             res.redirect(401, `/items`);
           } else {

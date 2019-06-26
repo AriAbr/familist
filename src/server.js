@@ -9,15 +9,12 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 io.on('connection', function(socket){
   socket.on('new item', function(item){
-    console.log("new item recieved")
     io.emit('new item', item);
   });
   socket.on('delete item', function(item){
-    console.log("in server delete item function");
     io.emit('delete item', item);
   });
   socket.on('update item', function(item){
-    console.log("in server delete item function");
     io.emit('update item', item);
   });
 });
