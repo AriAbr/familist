@@ -6,6 +6,15 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
+const io = require('socket.io')(server);
+io.on('connection', function(socket){
+  socket.on('new item', function(itemName){
+    console.log("new item recieved")
+    // console.log('message: ' + msg);
+    io.emit('new item', itemName);
+
+  });
+});
 
 server.listen(port);
 

@@ -22,6 +22,7 @@ module.exports = {
   },
 
   create(req, res, next){
+    console.log("itemController create() called");
     const authorized = new Authorizer(req.user).create();
 
     if(authorized){
@@ -34,7 +35,7 @@ module.exports = {
         if (err) {
           res.redirect (500, "/items");
         } else {
-          res.redirect (303, "/items");
+          // res.redirect (303, "/items");
         }
       });
 
