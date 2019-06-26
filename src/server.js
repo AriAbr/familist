@@ -6,6 +6,20 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
+const io = require('socket.io')(server);
+io.on('connection', function(socket){
+  socket.on('new item', function(item){
+    io.emit('new item', item);
+  });
+  socket.on('delete item', function(item){
+    io.emit('delete item', item);
+  });
+  socket.on('update item', function(item){
+    io.emit('update item', item);
+  });
+});
+global.io = io;
+
 
 server.listen(port);
 

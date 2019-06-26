@@ -70,7 +70,7 @@ describe("routes : items", () => {
       request.post(options, (err, res, body) => {
         Item.findOne({where: {name: "milk"}})
         .then((item) => {
-          expect(res.statusCode).toBe(303);
+          expect(res.statusCode).toBe(204);
           expect(item.name).toBe("milk");
           done();
         })
@@ -110,7 +110,6 @@ describe("routes : items", () => {
       .then((items) => {
         const itemCountBeforeDelete = items.length;
         expect(itemCountBeforeDelete).toBe(1);
-        // console.log(this.item.id)
         request.post(`${base}${this.item.id}/destroy`, (err, res, body) => {
           Item.all()
           .then((items) => {

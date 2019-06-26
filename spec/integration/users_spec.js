@@ -13,7 +13,7 @@ describe("routes : users", () => {
       done();
     })
     .catch((err) => {
-      console.log();
+      console.log(err);
       done();
     });
 
