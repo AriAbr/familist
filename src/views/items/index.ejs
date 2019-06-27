@@ -77,8 +77,9 @@
             </div>
           </div>
           <div id="item-${item.id}-edit" class="item-edit" style="display: none ">
-            <div style="float:left; width: 60%">
-              <form class="update-item-${item.id}-form" action="/items/${item.id}/update" method="post" class="form" style="margin-bottom: 0px">
+            <form class="update-item-${item.id}-form" action="/items/${item.id}/update" method="post" class="form" style="margin-bottom: 0px">
+
+              <div style="float:left; width: 60%">
                 <div class="form-group input-large" style="float: left; margin:0 4px 0 0; width: 100%">
                   <input style="margin:0; padding: 1px 8px" type="text" class="form-control form-control-sm item-edit-input" name="name" aria-describedby="bodyHelp" placeholder=${JSON.stringify(item.name)} value=${JSON.stringify(item.name)} />
                 </div>
@@ -167,7 +168,7 @@
         </div>
         <div id="item-${item.id}-edit" class="item-edit" style="display: none ">
           <form class="update-item-${item.id}-form" action="/items/${item.id}/update" method="post" class="form" style="margin-bottom: 0px">
-          <div style="float:left; width: 60%">
+            <div style="float:left; width: 60%">
               <div class="form-group input-large" style="float: left; margin:0 4px 0 0; width: 100%">
                 <input style="margin:0; padding: 1px 8px" type="text" class="form-control form-control-sm item-edit-input" name="name" aria-describedby="bodyHelp" placeholder=${JSON.stringify(item.name)} value=${JSON.stringify(item.name)} />
               </div>
