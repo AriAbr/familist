@@ -2,7 +2,7 @@
 
 Familist is a real-time updating app for creating lists and sharing them with groups.
 
-The app is deployed to heroku and is publicly available here: http://familist.herokuapp.com/
+This Node-based app is deployed to heroku and is publicly available here: http://familist.herokuapp.com/
 
 User authentication is managed by Passport.js
 
