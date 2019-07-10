@@ -7,3 +7,5 @@ This Node-based app is deployed to heroku and is publicly available here: http:/
 User authentication is managed by Passport.js
 
 Real-time updates are powered by Socket.io
+
+While the current version of the app does not include the ability to create groups or multiple lists, had I been given more time I would have added in this functionality. On the backend, I would have created an additional Group and List model. Items would have a one-to-many relationship with lists. Users and Lists would both have a one-to-many relationships with Groups. On the frontend, when a user signs in they would see a list of groups they belong to and then would be able to click on a group and then choose a list in that group to view the items. This functionality would also require the user of the 'rooms' feature in socket.io to ensure that any live updates are sent to the correct list.
