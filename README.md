@@ -1,6 +1,6 @@
 # familist
 
-Familist is a real-time updating app for creating lists and sharing them with groups.
+Familist is a real-time updating app for creating collaborative to-do lists and sharing them with groups.
 
 This Node-based app is deployed to heroku and is publicly available here: http://familist.herokuapp.com/
 
