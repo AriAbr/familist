@@ -38,6 +38,6 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^4.32.6",
     "sequelize-cli": "^5.5.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.5.0"
   }
 }
